@@ -16,11 +16,7 @@ def main():
 
         while True:
             client, addr = s.accept()
-
             print("* new connection from %s" % str(addr))
-
-            msg = 'Good connection'+'\r\n'
-            client.send(msg.encode('ascii'))
             client.close
     run()
 
