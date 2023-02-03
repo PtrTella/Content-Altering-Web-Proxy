@@ -1,10 +1,14 @@
 import socket
 import _thread as thread
 
+from client import *
 
-def main():
+MAX_DATA = 4500
 
-    def run():
+
+def newServerSocket():
+
+    try:
         print("Starting")
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -17,10 +21,28 @@ def main():
         while True:
             client, addr = s.accept()
             print("* new connection from %s" % str(addr))
-            client.close
-    run()
+            thread.start_new_thread(client_thread, (client, addr))
+
+    except (socket.error):
+        if s:
+            s.close()
+        print('Starting error')
+
+
+
+def client_thread(client, address):
+    request = client.recv(MAX_DATA)
+
+    #split the request
+    addr_start = request.find('://')
+    addr_end = request.find()
+
+    newClientSocket(request, addr)
+
+
+
 
 
 if __name__ == '__main__':
     print("execute")
-    main()
+    newServerSocket()
