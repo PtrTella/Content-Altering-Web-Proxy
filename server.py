@@ -4,6 +4,7 @@ import _thread as thread
 from client import *
 
 MAX_DATA = 4500
+DEFAULT_PORT = 80
 
 
 def newServerSocket():
@@ -31,13 +32,18 @@ def newServerSocket():
 
 
 def client_thread(client, address):
-    request = client.recv(MAX_DATA)
+    header = client.recv(MAX_DATA)
+    headerLines = header.split("\n")
 
-    #split the request
-    addr_start = request.find('://')
-    addr_end = request.find()
+    #split the request (URI)
+    request = headerLines.split(" ")[1]
 
-    newClientSocket(request, addr)
+    #find the serverAddress (port set as default)
+    for line in headerLines:
+        if line.startWith("Host:"):
+            host = line.split(":")[1].strip()
+
+    newClientSocket(request, (host, DEFAULT_PORT))
 
 
 

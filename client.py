@@ -1,10 +1,10 @@
 import socket
 MAX_DATA = 4500
 
-def newClientSocket(request, addr):
+def newClientSocket(request, serverAddress):
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(addr)
+        s.connect(serverAddress)
         s.send(request)
 
         while True:
