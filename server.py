@@ -21,8 +21,8 @@ def newServerSocket():
 
         while True:
             client, addr = s.accept()
-            print("* new connection from %s" % str(addr))
-            thread.start_new_thread(client_thread, (client, addr))
+            print("--> New connection from %s" % str(addr))
+            thread.start_new_thread(client_thread, (client,))
 
     except (socket.error):
         if s:
@@ -31,21 +31,22 @@ def newServerSocket():
 
 
 
-def client_thread(client, Clientaddress):
+def client_thread(client):
     header = client.recv(MAX_DATA)
 
-    headerLines = header.split(b"\n")
-
     #split the request (URI)
-    request = headerLines[0].split(b" ")[1]
+    #request = headerLines[0].split(b" ")[1]
+    #request = request.replace(b"http://", b"")
 
-    #find the serverAddress (port set as default)
-    for line in headerLines:
-        if line.find(b"Host:") >= 0:
-            host = line.split(b":")[1].strip()
+    
 
-    print("Host %s" % str(host), "  --  Request %s" % str(request))
-    newClientSocket(request, (host, DEFAULT_PORT))
+    #print("Host %s" % str(host))
+    response = newClientSocket(header)
+
+    # It's better to split again the response
+
+    client.send(response)
+    client.close()
 
 
 
