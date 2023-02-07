@@ -9,6 +9,7 @@ def newClientSocket(request, serverAddress):
 
         while True:
             #recive data from WebServer
+            print("server address %s" % str(serverAddress))
             data = s.recv(MAX_DATA) #check basic error on data?
     
     except(socket.error):

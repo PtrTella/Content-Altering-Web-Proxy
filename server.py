@@ -31,18 +31,20 @@ def newServerSocket():
 
 
 
-def client_thread(client, address):
+def client_thread(client, Clientaddress):
     header = client.recv(MAX_DATA)
-    headerLines = header.split("\n")
+
+    headerLines = header.split(b"\n")
 
     #split the request (URI)
-    request = headerLines.split(" ")[1]
+    request = headerLines[0].split(b" ")[1]
 
     #find the serverAddress (port set as default)
     for line in headerLines:
-        if line.startWith("Host:"):
-            host = line.split(":")[1].strip()
+        if line.find(b"Host:") >= 0:
+            host = line.split(b":")[1].strip()
 
+    print("Host %s" % str(host), "  --  Request %s" % str(request))
     newClientSocket(request, (host, DEFAULT_PORT))
 
 
