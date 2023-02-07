@@ -1,18 +1,23 @@
 import socket
+from contenent_altering import *
+
 MAX_DATA = 4500
 DEFAULT_PORT = 80
 
 
-def newClientSocket(request):
+def newClientSocket(request:bytes):
 
     #find the serverAddress (port set as default)
     headerLines = request.split(b"\n")
     for line in headerLines:
         if line.find(b"Host:") >= 0:
             host = line.split(b":")[1].strip()
-            serverAddress = (host, DEFAULT_PORT)
-        else:
-            return (b"Server Not found")
+            print("Host %s" % str(host))
+
+    if host is None:
+        return (b"Server Not found")
+    else:
+        serverAddress = (host, DEFAULT_PORT)
 
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -29,6 +34,8 @@ def newClientSocket(request):
             response += data
         
         s.close()
+        response = text_modification(response)
+
         return response
 
     except (socket.error):
