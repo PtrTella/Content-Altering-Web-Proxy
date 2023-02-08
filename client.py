@@ -9,10 +9,8 @@ def newClientSocket(request:bytes):
 
     #find the serverAddress (port set as default)
     headerLines = request.split(b"\n")
-    for line in headerLines:
-        if line.find(b"Host:") >= 0:
-            host = line.split(b":")[1].strip()
-            print("Host %s" % str(host))
+    
+    host = headerLines[1].split(b":")[1].strip()
 
     if host is None:
         return (b"Server Not found")
@@ -34,8 +32,6 @@ def newClientSocket(request:bytes):
             response += data
         
         s.close()
-        response = text_modification(response)
-
         return response
 
     except (socket.error):

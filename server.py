@@ -2,10 +2,9 @@ import socket
 import _thread as thread
 
 from client import *
+from contenent_altering import *
 
 MAX_DATA = 4500
-DEFAULT_PORT = 80
-
 
 def newServerSocket():
 
@@ -39,18 +38,19 @@ def client_thread(client):
     #request = request.replace(b"http://", b"")
     
     #find the serverAddress (port set as default)
-    headerLines = header.split(b"\n")
-    for line in headerLines:
-        if line.find(b"Host:") >= 0:
-            host = line.split(b":")[1].strip()
-            serverAddress = (host, DEFAULT_PORT)
+    #headerLines = header.split(b"\n")
+    #for line in headerLines:
+    #    if line.find(b"Host:") >= 0:
+    #        host = line.split(b":")[1].strip()
+    #        serverAddress = (host, DEFAULT_PORT)
     
 
     #print("Host %s" % str(host))
     response = newClientSocket(header)
 
+    response = text_modification(response)
+    
     # It's better to split again the response
-
     client.send(response)
     client.close()
 
