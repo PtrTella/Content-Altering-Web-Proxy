@@ -14,6 +14,12 @@ def status(arg: bytes):
 
 
 def text_modification(arg: bytes):
-    data_modified = arg.replace(b"Stockholm", b"Linkoping")
-    data_modified = data_modified.replace(b"Smiley", b"Trolly")
+
+    data_modified = arg.replace(b" Stockholm", b" Linkoping")
+    data_modified = data_modified.replace(b" Smiley", b" Trolly")
+    data_modified = data_modified.replace(b"smiley", b"trolly")
     return data_modified
+
+
+
+

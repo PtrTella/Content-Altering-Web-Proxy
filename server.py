@@ -23,6 +23,7 @@ def newServerSocket():
             print("--> New connection from %s" % str(addr))
             thread.start_new_thread(client_thread, (client,))
 
+
     except (socket.error):
         if s:
             s.close()
@@ -47,10 +48,11 @@ def client_thread(client):
 
     #print("Host %s" % str(host))
     response = newClientSocket(header)
-
+    status(response)
     response = text_modification(response)
-    
+
     # It's better to split again the response
+
     client.send(response)
     client.close()
 
