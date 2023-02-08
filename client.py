@@ -9,7 +9,6 @@ def newClientSocket(request:bytes):
 
     #find the serverAddress (port set as default)
     headerLines = request.split(b"\n")
-    
     host = headerLines[1].split(b":")[1].strip()
 
     if host is None:
@@ -21,7 +20,7 @@ def newClientSocket(request:bytes):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(serverAddress)
         s.send(request)
-        print(" |__ server address %s" % str(serverAddress))
+        #print(" |__ server address %s" % str(serverAddress))
 
         response = b""
         while True:
