@@ -17,6 +17,7 @@ def newServerSocket():
 
         s.bind((host, port))
         s.listen()
+        #print(socket.gethostname())
 
         while True:
             client, addr = s.accept()
@@ -26,34 +27,23 @@ def newServerSocket():
 
     except (socket.error):
         if s:
+            print('Starting error')
             s.close()
-        print('Starting error')
-
+    
+    except KeyboardInterrupt:
+        print("CLOSE CONNECTION")
+        s.close
 
 
 def client_thread(client):
-    header = client.recv(MAX_DATA)
+    header = client.recv(MAX_DATA)    
 
-    #split the request (URI)
-    #request = headerLines[0].split(b" ")[1]
-    #request = request.replace(b"http://", b"")
-    
-    #find the serverAddress (port set as default)
-    #headerLines = header.split(b"\n")
-    #for line in headerLines:
-    #    if line.find(b"Host:") >= 0:
-    #        host = line.split(b":")[1].strip()
-    #        serverAddress = (host, DEFAULT_PORT)
-    
-
-    #print("Host %s" % str(host))
     response = newClientSocket(header)
+
     status(response)
     response = text_modification(response)
-
-    # It's better to split again the response
-
-    client.send(response)
+    
+    client.sendall(response)
     client.close()
 
 

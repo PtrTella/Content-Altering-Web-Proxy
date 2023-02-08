@@ -1,3 +1,5 @@
+TROLL_IMG_LINK = "https://happymag.tv/wp-content/uploads/2022/03/New-Project-2022-03-20T101949.136-870x524.jpg"
+
 def status(arg: bytes):
     first_header = arg.split(b'\r')[0]
     status = first_header.split(b' ')
