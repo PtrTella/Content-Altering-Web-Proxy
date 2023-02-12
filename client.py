@@ -1,5 +1,5 @@
 import socket
-from contenent_altering import *
+from content_altering import *
 
 MAX_DATA = 4500
 DEFAULT_PORT = 80
